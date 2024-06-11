@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int                 @id @default(autoincrement())
+  email            String              @unique
+  username         String              @unique
+  description      String
+  password         String
+  friends          Friendship[]        @relation("FriendshipUser1")
+  friendsOf        Friendship[]        @relation("FriendshipUser2")
+  messagesSent     Message[]           @relation("SentMessages")
+  messagesReceived Message[]           @relation("ReceivedMessages")
+  sentRequests     FriendshipRequest[] @relation("SentRequests")
+  receivedRequests FriendshipRequest[] @relation("ReceivedRequests")
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+}
+
+model Friendship {
+  id        Int      @id @default(autoincrement())
+  userId1   Int
+  userId2   Int
+  user1     User     @relation("FriendshipUser1", fields: [userId1], references: [id])
+  user2     User     @relation("FriendshipUser2", fields: [userId2], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId1, userId2])
+}
+
+model FriendshipRequest {
+  id         Int      @id @default(autoincrement())
+  sender     User     @relation("SentRequests", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User     @relation("ReceivedRequests", fields: [receiverId], references: [id])
+  receiverId Int
+  createdAt  DateTime @default(now())
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  content    String
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  senderId   Int
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  receiverId Int
+  createdAt  DateTime @default(now())
+}
