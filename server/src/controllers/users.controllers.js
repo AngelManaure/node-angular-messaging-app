@@ -1,6 +1,5 @@
 import prisma from "../db.js";
 import bcrypt from "bcryptjs";
-import { loadOffensiveWords } from "../libs/offensiveWordsView.js";
 
 import { containsOffensiveWord } from "../libs/offensiveWordsView.js";
 

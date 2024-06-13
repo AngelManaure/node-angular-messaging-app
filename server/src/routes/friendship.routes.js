@@ -18,10 +18,10 @@ router.post("/friend-request/:id", authRequired, friendRequest);
 
 router.get("/friendship-requests/sent", authRequired, friendRequestSents);
 
-router.post('/friendship-requests/:id/accept', authRequired, acceptFriendRequest)
+router.post('/friendship-requests/:id/accept', authRequired, acceptFriendRequest);
 
-router.delete('/friendship-requests/:id/reject', authRequired, denigFriendRequest)
+router.delete('/friendship-requests/:id/reject', authRequired, denigFriendRequest);
 
-router.get("/friends", authRequired, getFriends)
+router.get("/friends", authRequired, getFriends);
 
 export default router;
