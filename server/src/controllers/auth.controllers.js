@@ -10,13 +10,13 @@ export const register = async (req, res) => {
   const { email, username, password, description } = req.body;
 
     if (!email || !username || !password || !description) {
-        return res.status(400).json({ message: "Campos incompletos" });
+        return res.status(400).json(["Campos incompletos"]);
     }
 
     const hasOffensiveWord = containsOffensiveWord(email) || containsOffensiveWord(description) || containsOffensiveWord(username);
 
     if (hasOffensiveWord) {
-      return res.status(400).json({ message: "evita el uso de palabras que puedan ofender a los demás" });
+      return res.status(400).json(["evita el uso de palabras que puedan ofender a los demás"]);
     }
     
     try {
@@ -63,8 +63,8 @@ export const register = async (req, res) => {
       }
     }
    catch (error) {
+     console.log(error);
     res.status(500).json({ message: error.message });
-    console.log(error);
   }
 }
 
