@@ -9,6 +9,7 @@ export const messageNotification = async (req, res) => {
             include: {
                 sender: {
                     select: {
+                      id: true,
                       username: true,
                       email: true,
                     },

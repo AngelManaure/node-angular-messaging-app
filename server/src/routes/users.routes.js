@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import {
-  getUsers,
+  searchUsers,
   getUser,
   updateUserRequest,
   updateUser,
@@ -13,7 +13,7 @@ import { updateSchema, updateUserRequestSchema } from "../schemas/user.schemas.j
 
 const router = Router();
 
-router.get("/users", authRequired, getUsers);
+router.get("/users", authRequired, searchUsers);
 
 router.get("/users/:id", authRequired, getUser);
 

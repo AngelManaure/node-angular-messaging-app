@@ -5,7 +5,7 @@ export const getFriends = async (req, res) => {
         try {
           const friends = await prisma.friendship.findMany({
             where: {
-              userId1: Number(userId),
+              userId1: userId,
             },
             include: {
               user2: {
@@ -21,6 +21,28 @@ export const getFriends = async (req, res) => {
         } catch (error) {
             res.status(400).json(error);
         }
+}
+
+export const isUserFriend = async (req, res) => {
+  const userId = req.user.id
+  const friendId = parseInt(req.params.id)
+  try {
+    const friendFound = await prisma.friendship.findMany({
+      where: {
+        userId1: userId,
+        userId2: friendId,
+      }
+    });
+
+    if (friendFound.length == 0) {
+      return res.status(200).json({ message: "No es" })
+    } else {
+      res.status(200).json({ message: "Si es" })
+    }
+  } catch (error) {
+    res.status(400).json(error);
+    console.log(error);
+  }
 }
 
 export const friendRequest = async (req, res) => {
@@ -39,6 +61,30 @@ export const friendRequest = async (req, res) => {
   }
 };
 
+export const deleteReq = async (req, res) => {
+  await prisma.friendship.deleteMany()
+}
+
+export const deleteFriendRequest = async (req, res) => {
+  const senderId = req.user.id;
+  const receiverId = parseInt(req.params.id)
+  try {
+    const requestDeleted = await prisma.friendshipRequest.deleteMany({
+      where: {
+        senderId: senderId,
+        receiverId: receiverId
+      }
+    })
+    if (!requestDeleted) {
+      return res.status(400).json({ message: "Ocurrió un error al intentar eliminar la solicitud de amistad" })
+    } else {
+      res.status(200).json({ message: "Solicitud de amistad eliminada exitosamente" })
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const friendRequestRecived = async (req, res) => {
   const receiverId = req.user.id;
 
@@ -52,7 +98,6 @@ export const friendRequestRecived = async (req, res) => {
           select: {
             id: true,
             username: true,
-            description: true,
             email: true,
           },
         },
@@ -67,23 +112,21 @@ export const friendRequestRecived = async (req, res) => {
 
 export const friendRequestSents = async (req, res) => {
     const senderId = req.user.id;
+    const receiverId = parseInt(req.params.id)
     try {
       const sentRequests = await prisma.friendshipRequest.findMany({
         where: {
           senderId: senderId,
-        },
-        include: {
-          receiver: {
-            select: {
-              id: true,
-              username: true,
-              description: true,
-              email: true,
-            },
-          },
+          receiverId:receiverId,
         },
       })
-      res.status(200).json(sentRequests);
+      if (!sentRequests) {
+        return res.status(400).json({message: "no esta" })
+      } if (sentRequests.length > 0) {
+        return res.status(200).json({ message: "si esta" })
+      } else {
+        res.status(200).json({ message: "no esta" })
+      }
   } catch (error) {
     res.status(400).json(error);
   }
@@ -130,6 +173,7 @@ export const acceptFriendRequest = async (req, res) => {
       res.status(200).send('Solicitud de amistad aceptada');
     } catch (error) {
         res.status(400).json(error);
+        console.log(error);
     }
 }
 

@@ -3,16 +3,24 @@ import bcrypt from "bcryptjs";
 
 import { containsOffensiveWord } from "../libs/offensiveWordsView.js";
 
-export const getUsers = async (req, res) => {
+export const searchUsers = async (req, res) => {
   try {
-    const allUsers = await prisma.user.findMany();
-    if (!allUsers) {
-      return res.status(404).json({ message: "Error al obtener los usuarios" });
-    } else {
-      res.status(200).json(allUsers);
+    const query = req.query.q;
+
+    if (!query) {
+      return res
+        .status(400)
+        .json({ message: "el parametro query 'q' es requerido" });
     }
+    const users = await prisma.user.findMany();
+
+    const filteredUsers = users.filter(user =>
+      user.username.toLowerCase().includes(query.toLowerCase())
+    );
+
+    res.json(filteredUsers);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(500).json({ message: error.message });
   }
 };
 
