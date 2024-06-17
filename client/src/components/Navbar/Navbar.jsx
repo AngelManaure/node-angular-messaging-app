@@ -1,19 +1,13 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useUser } from "../../context/UserContext";
-import { useState } from "react";
+import Search from "../Search/Search";
 
 function Navbar() {
   const { isAuthenticated, logout } = useAuth();
-  const { handleSearchSubmit, requests, errors } = useUser();
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
+  const { requests, errors } = useUser();
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    handleSearchSubmit(query);
-    navigate("/results");
-  };
+
 
   const onClick = () => {
     try {
@@ -34,18 +28,8 @@ function Navbar() {
           </div>
         ) : (
             <header>
-              <Link to={"/inbox"}>Mensajes</Link>
-            <form onSubmit={onSubmit}>
-              <input
-                type="text"
-                className="searchInput"
-                value={query}
-                id="search=input"
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Buscar..."
-              />
-              <button className="searchButton">Buscar</button>
-            </form>
+              <Link to={"/inbox"}>Chats</Link>
+            <Search />
             <button onClick={onClick}>Cerrar sesión</button>
             <span>Solicitudes:{requests.length} <Link to={"/friend-request"}>ver</Link></span>
             <Link to={"/friends"}>Amigos</Link>

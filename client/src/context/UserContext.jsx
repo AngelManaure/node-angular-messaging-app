@@ -6,6 +6,8 @@ import {
   searchUsers,
   getUserRequest,
   userMessagesRequest,
+  messagesInRequest,
+  sendMessageRequest,
   userFriendsRequest,
   isUserFriendRequest,
   friendShipRequest,
@@ -147,6 +149,27 @@ export const UserProvider = ({ children }) => {
     }
   }
 
+  const messageIn = async (id) => {
+    try {
+      const res = await messagesInRequest(id)
+      return res;
+    } catch (error) {
+      setErrors(prevErrors => [...prevErrors, 'Error al buscar el chat. Por favor, intenta de nuevo.']);
+    }
+  }
+
+  const sendMessageTo = async (id, content) => {
+    try {
+      const res = await sendMessageRequest(id, content)
+      return res
+      // console.log(res.data);
+      // const newMessage = res.data;
+      // setMessages(prevMessages => [...prevMessages, newMessage]);
+    } catch (error) {
+      setErrors(prevErrors => [...prevErrors, 'Error al enviar el mensaje. Por favor, intenta de nuevo.']); 
+    }
+  }
+
 
   return (
     <userContext.Provider
@@ -156,6 +179,7 @@ export const UserProvider = ({ children }) => {
         userRequest,
         userMessages,
         messages,
+        setMessages,
         viewFriendsNotification,
         addFriend,
         removeFriendRequest,
@@ -169,6 +193,8 @@ export const UserProvider = ({ children }) => {
         userFriends,
         isFriendSearch,
         isFriend,
+        messageIn,
+        sendMessageTo,
       }}
     >
       {children}

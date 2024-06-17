@@ -62,7 +62,7 @@ export const friendRequest = async (req, res) => {
 };
 
 export const deleteReq = async (req, res) => {
-  await prisma.friendship.deleteMany()
+  await prisma.message.deleteMany()
 }
 
 export const deleteFriendRequest = async (req, res) => {

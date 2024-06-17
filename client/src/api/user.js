@@ -10,6 +10,10 @@ export const updateUserRequest = (data) => axios.post("/update-user-request", da
 
 export const userMessagesRequest = () => axios.get(`/message/notification`);
 
+export const messagesInRequest = (id) => axios.get(`/message-in/${id}`)
+
+export const sendMessageRequest = (id, content) => axios.post(`/message-to/${id}`, content)
+
 export const userFriendsRequest = () => axios.get("/friends")
 
 export const isUserFriendRequest = (id) => axios.get(`/is-friend/${id}`)

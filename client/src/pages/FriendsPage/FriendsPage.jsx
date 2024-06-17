@@ -1,5 +1,6 @@
 import { useEffect } from "react"
 import { useUser } from "../../context/UserContext"
+import FriendsCard from "../../components/Cards/Friends/FriendsCard";
 
 function FriendsPage() {
   const { myFriends, userFriends } = useUser();
@@ -13,10 +14,7 @@ function FriendsPage() {
 
   return (
     <section>{userFriends.map((friend) => (
-      <div key={friend.id}>
-        {friend.user2.username}
-      <p>{friend.user2.email}</p>
-      </div>
+      <FriendsCard key={friend.id} friend={friend}/>
     ))}</section>
   )
 }

@@ -12,6 +12,7 @@ import ResultsPage from "./pages/ResultsPage/ResultsPage";
 import PerfilPage from "./pages/PerfilPage/PerfilPage";
 import RequestPage from "./pages/RequestPage/RequestPage";
 import FriendsPage from "./pages/FriendsPage/FriendsPage";
+import ChatPage from "./pages/ChatPage/ChatPage";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/inbox" element={<Inbox />} />
+          <Route path="/inbox/chat/:id" element={<ChatPage />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/user/:id" element={<PerfilPage />} />
           <Route path="/friend-request" element={<RequestPage />} />
