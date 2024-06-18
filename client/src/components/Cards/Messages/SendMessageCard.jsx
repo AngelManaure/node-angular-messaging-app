@@ -20,7 +20,7 @@ function SendMessageCard({ setMessages }) {
             setMessages(prevMessages => [...prevMessages, { ...newMessage, type: 'enviado' }]);
             reset(); // Resetear el formulario después de enviar el mensaje
         } catch (error) {
-            console.log(error);
+            throw new Error("Error al intentar enviar el mensaje. Por favor, intenta de nuevo")
         }
     });
 

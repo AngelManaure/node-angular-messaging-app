@@ -1,18 +1,22 @@
 import { useUser } from "../../context/UserContext"
 
 function AcceptFriendShip({ requestId }) {
-    const { acceptFriendRequest } = useUser();
+    const { acceptFriendRequest, denigFriendrequest } = useUser();
 
-    const acceptRequest = async () => {
-        try {
-           const res = await acceptFriendRequest(requestId)
-           console.log(res);
-        } catch (error) {
-            console.log(error);
-        }
+    const acceptRequest = () => {
+      acceptFriendRequest(requestId)
     }
+
+    const denigRequest = () => {
+      denigFriendrequest(requestId)
+
+    }
+
   return (
+    <>
     <button onClick={acceptRequest} >Aceptar</button>
+    <button onClick={denigRequest}>Rechazar</button>
+    </>
   )
 }
 

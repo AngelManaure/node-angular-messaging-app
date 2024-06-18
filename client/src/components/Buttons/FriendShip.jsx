@@ -26,7 +26,6 @@ function FriendShip({ id }) {
 
   useEffect(() => {
     viewFriendsNotification(params.id);
-    console.log(isRequested);
   }, []);
 
   return (

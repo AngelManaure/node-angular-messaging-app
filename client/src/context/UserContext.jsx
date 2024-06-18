@@ -15,8 +15,8 @@ import {
   viewFriendRequest,
   viewMyFriendRequest,
   acceptFriendShipRequest,
-  updateUserRequest,
-  updateUser,
+  denigFriendShipRequest,
+  deleteFriendRequest,
 } from "../api/user";
 
 export const userContext = createContext();
@@ -92,7 +92,6 @@ export const UserProvider = ({ children }) => {
   const viewFriendsNotification = async (receiverId) => {
     try {
         const res = await viewFriendRequest(receiverId);
-        // console.log(res.data.message);
         if (res.data.message === 'no esta') {
             setIsRequested(false)
         } if (res.data.message === 'si esta') {
@@ -111,6 +110,25 @@ export const UserProvider = ({ children }) => {
       setErrors([]); // Limpiar errores si la búsqueda es exitosa
     } catch (error) {
       setErrors(prevErrors => [...prevErrors, 'Error al acceptar la solicitud. Por favor, intenta de nuevo.']);
+    }
+  }
+
+  const denigFriendrequest = async (id) => {
+    try {
+      await denigFriendShipRequest(id)
+      setRequests((prevRequests) => prevRequests.filter((request) => request.id !== id));
+      setErrors([]); // Limpiar errores si la búsqueda es exitosa
+    } catch (error) {
+      setErrors(prevErrors => [...prevErrors, 'Error al rechazar la solicitud. Por favor, intenta de nuevo.']);
+    }
+  }
+
+  const deleteFriend = async (id) => {
+    try {
+      await deleteFriendRequest(id)
+      setErrors([]); // Limpiar errores si la búsqueda es exitosa
+    } catch (error) {
+      setErrors(prevErrors => [...prevErrors, 'Error al intentar eliminar a este usuario de tus amigos. Por favor, intenta de nuevo.']);
     }
   }
 
@@ -137,7 +155,6 @@ export const UserProvider = ({ children }) => {
   const isFriendSearch = async (id) => {
     try {
       const res = await isUserFriendRequest(id)
-      console.log(res);
       if (res.data.message === 'No es') {
         setIsFriend(false)
       }
@@ -162,9 +179,6 @@ export const UserProvider = ({ children }) => {
     try {
       const res = await sendMessageRequest(id, content)
       return res
-      // console.log(res.data);
-      // const newMessage = res.data;
-      // setMessages(prevMessages => [...prevMessages, newMessage]);
     } catch (error) {
       setErrors(prevErrors => [...prevErrors, 'Error al enviar el mensaje. Por favor, intenta de nuevo.']); 
     }
@@ -188,6 +202,8 @@ export const UserProvider = ({ children }) => {
         myRequest,
         requests,
         acceptFriendRequest,
+        denigFriendrequest,
+        deleteFriend,
         errors,
         myFriends,
         userFriends,

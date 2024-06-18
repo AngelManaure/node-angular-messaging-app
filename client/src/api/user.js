@@ -28,10 +28,6 @@ export const deleteFriendShipRequest = (id) => axios.delete(`/friend-request/del
 
 export const acceptFriendShipRequest = (id) => axios.post(`/friendship-requests/accept/${id}`)
 
-export const updateUser = (data) => {
-    try {
-        axios.post("/update-user", data)
-    } catch (error) {
-        console.log(error);
-    }
-}
+export const denigFriendShipRequest = (id) => axios.delete(`/friendship-requests/${id}/reject`)
+
+export const deleteFriendRequest = (id) => axios.delete(`/friends/delete/${id}`)

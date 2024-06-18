@@ -76,7 +76,6 @@ export const sendMessage = async (req, res) => {
             res.status(200).json(messageSended)
         }
     } catch (error) {
-        console.log(error);
-        // res.status(400).json(error);
+        res.status(400).json(error);
     }
 };

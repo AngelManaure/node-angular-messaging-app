@@ -1,15 +1,23 @@
 import { useEffect, useState } from "react";
-import { useUser } from "../../context/UserContext"
 import { useParams, useNavigate } from "react-router-dom";
 
+import { useUser } from "../../context/UserContext"
+import { useAuth } from "../../context/AuthContext";
 import FriendShip from "../../components/Buttons/FriendShip";
 
 function PerfilPage() {
     const { isFriendSearch, userRequest, errors } = useUser();
+    const { isAuthenticated } = useAuth();
     const [oneUser, setOneUser] = useState({});
 
     const params = useParams();
     const navigate = useNavigate();
+
+    useEffect(() => {
+      if (!isAuthenticated) {
+        navigate("/")
+      }
+    }, [isAuthenticated])
 
     useEffect(() => {
         const loadUser = async () => {

@@ -19,7 +19,7 @@ function LoginPage() {
     try {
       signin(values)
     } catch (error) {
-      console.log(error);
+      throw new Error("Error al iniciar sesión. Por favor intenta de nuevo.")
     }
   });
 

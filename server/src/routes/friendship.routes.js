@@ -10,12 +10,10 @@ import {
   getFriends,
   isUserFriend,
   deleteFriendRequest,
-  deleteReq
+  deleteFriend,
 } from "../controllers/fiendship.controllers.js";
 
 const router = Router();
-
-router.delete("/delete", deleteReq)
 
 router.get("/is-friend/:id", authRequired, isUserFriend)
 
@@ -25,12 +23,13 @@ router.post("/friend-request/:id", authRequired, friendRequest);
 
 router.delete("/friend-request/delete/:id", authRequired, deleteFriendRequest)
 
-
 router.get("/friendship-requests/sent/:id", authRequired, friendRequestSents);
 
 router.post('/friendship-requests/accept/:id', authRequired, acceptFriendRequest);
 
 router.delete('/friendship-requests/:id/reject', authRequired, denigFriendRequest);
+
+router.delete('/friends/delete/:id', authRequired, deleteFriend)
 
 router.get("/friends", authRequired, getFriends);
 

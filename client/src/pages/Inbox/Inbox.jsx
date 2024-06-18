@@ -1,12 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUser } from "../../context/UserContext";
 import ChatCard from "../../components/Cards/Messages/ChatCard";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 
 function Inbox() {
   const { userMessages, messages, errors } = useUser();
-    const [uniqueChats, setUniqueChats] = useState([]);
+  const { isAuthenticated } = useAuth();
+  const [uniqueChats, setUniqueChats] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (!isAuthenticated) {
+        navigate("/")
+      }
+    }, [isAuthenticated])
 
   useEffect(() => {
     const loadMessages = async () => {

@@ -10,11 +10,7 @@ function Navbar() {
 
 
   const onClick = () => {
-    try {
       logout();
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (

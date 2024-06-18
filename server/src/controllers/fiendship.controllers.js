@@ -41,7 +41,6 @@ export const isUserFriend = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json(error);
-    console.log(error);
   }
 }
 
@@ -61,10 +60,6 @@ export const friendRequest = async (req, res) => {
   }
 };
 
-export const deleteReq = async (req, res) => {
-  await prisma.message.deleteMany()
-}
-
 export const deleteFriendRequest = async (req, res) => {
   const senderId = req.user.id;
   const receiverId = parseInt(req.params.id)
@@ -81,7 +76,7 @@ export const deleteFriendRequest = async (req, res) => {
       res.status(200).json({ message: "Solicitud de amistad eliminada exitosamente" })
     }
   } catch (error) {
-    console.log(error);
+    res.status(400).json(error);
   }
 }
 
@@ -173,7 +168,6 @@ export const acceptFriendRequest = async (req, res) => {
       res.status(200).send('Solicitud de amistad aceptada');
     } catch (error) {
         res.status(400).json(error);
-        console.log(error);
     }
 }
 
@@ -207,4 +201,33 @@ export const denigFriendRequest = async (req, res) => {
         res.status(400).json(error);
       }
     
+}
+
+export const deleteFriend = async (req, res) => {
+  const userId = req.user.id;
+  const friendId = parseInt(req.params.id);
+  try {
+
+    const deleteFirst = await prisma.friendship.deleteMany({
+      where: {
+        userId1: userId,
+        userId2: friendId,
+      }
+    });
+    const deleteSecond = await prisma.friendship.deleteMany({
+      where: {
+        userId1: friendId,
+        userId2: userId,
+      }
+    })
+
+    if (!deleteFirst || !deleteSecond) {
+      return res.status(404).json({ error: "Ocurrio un errror al intentar eliminar una o ambas relaciones de amistad" })
+    } else {
+      res.status(200).json({ message: "relaciones eliminadas exitosamente" })
+    }
+
+  } catch (error) {
+    res.status(400).json(error);
+  }
 }
