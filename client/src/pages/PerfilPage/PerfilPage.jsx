@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext"
 import { useAuth } from "../../context/AuthContext";
 import FriendShip from "../../components/Buttons/FriendShip";
+import ErrorsCard from "../../components/Cards/Errors/ErrorsCard";
 
 function PerfilPage() {
     const { isFriendSearch, userRequest, errors } = useUser();
@@ -42,6 +43,9 @@ function PerfilPage() {
 
   return (
     <div>
+              {errors && (
+        <ErrorsCard errors={errors}/>
+      )}
         <button onClick={goBack}>Volver</button>
         <h2>{oneUser.username}</h2>
         <small>{oneUser.email}</small>

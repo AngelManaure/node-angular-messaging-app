@@ -4,9 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import MessagesCard from "../../components/Cards/Messages/MessagesCard";
 import SendMessageCard from "../../components/Cards/Messages/SendMessageCard";
 import { useAuth } from "../../context/AuthContext";
+import ErrorsCard from "../../components/Cards/Errors/ErrorsCard";
 
 function ChatPage() {
-  const { messageIn } = useUser();
+  const { messageIn, errors } = useUser();
   const { isAuthenticated } = useAuth();
   const params = useParams();
   const [messages, setMessages] = useState([]);
@@ -28,6 +29,9 @@ function ChatPage() {
 
   return (
     <div>
+      {errors && (
+        <ErrorsCard errors={errors}/>
+      )}
       <h1>Messages</h1>
       <ul>
         {messages.map((message) => (

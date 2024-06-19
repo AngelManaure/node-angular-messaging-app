@@ -205,6 +205,7 @@ export const UserProvider = ({ children }) => {
         denigFriendrequest,
         deleteFriend,
         errors,
+        setErrors,
         myFriends,
         userFriends,
         isFriendSearch,

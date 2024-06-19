@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext"
 import { useAuth } from "../../context/AuthContext";
 import AcceptFriendShip from "../../components/Buttons/AcceptFriendShip";
+import ErrorsCard from "../../components/Cards/Errors/ErrorsCard";
 
 function RequestPage() {
     const { myRequest, requests, errors } = useUser();
@@ -29,7 +30,11 @@ function RequestPage() {
     }, [])
 
     return (
-    <section>{requests.map((request) => (
+    <section>
+              {errors && (
+        <ErrorsCard errors={errors}/>
+      )}
+        {requests.map((request) => (
         <article key={request.id}>
             <h4>{request.sender.username}</h4>
             <small>{request.sender.email}</small>

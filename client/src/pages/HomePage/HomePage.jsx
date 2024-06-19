@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAuth } from "../../context/AuthContext"
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
+import ErrorsCard from "../../components/Cards/Errors/ErrorsCard";
 
 function HomePage() {
   const { isAuthenticated } = useAuth();
@@ -15,7 +16,11 @@ function HomePage() {
   }, [isAuthenticated])
 
   return (
-    <div>HomePage</div>
+    <>
+          {errors && (
+        <ErrorsCard errors={errors}/>
+      )}
+    HomePage</>
   )
 }
 

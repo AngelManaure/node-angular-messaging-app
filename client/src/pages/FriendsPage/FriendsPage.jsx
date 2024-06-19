@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext"
 import FriendsCard from "../../components/Cards/Friends/FriendsCard";
 import { useAuth } from "../../context/AuthContext";
+import ErrorsCard from "../../components/Cards/Errors/ErrorsCard";
 
 function FriendsPage() {
-  const { myFriends, userFriends } = useUser();
+  const { myFriends, userFriends, errors } = useUser();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
@@ -24,7 +25,12 @@ function FriendsPage() {
   }, [])
 
   return (
-    <section>{userFriends.map((friend) => (
+    
+    <section>
+            {errors && (
+        <ErrorsCard errors={errors}/>
+      )}
+      {userFriends.map((friend) => (
       <FriendsCard key={friend.id} friend={friend}/>
     ))}</section>
   )
